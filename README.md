@@ -1,5 +1,12 @@
 # EÜR – Anlage EÜR für Dolibarr (Beta)
 
+[![Version](https://img.shields.io/github/v/release/MichaelSalp/dolibarr-eur?include_prereleases&label=Version)](https://github.com/MichaelSalp/dolibarr-eur/releases)
+[![Downloads](https://img.shields.io/github/downloads/MichaelSalp/dolibarr-eur/total?label=Downloads)](https://github.com/MichaelSalp/dolibarr-eur/releases)
+[![Lizenz](https://img.shields.io/github/license/MichaelSalp/dolibarr-eur?label=Lizenz)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Beta-orange)](#eür--anlage-eür-für-dolibarr-beta)
+[![Dolibarr](https://img.shields.io/badge/Dolibarr-%E2%89%A5%2024.0-263c5c)](https://www.dolibarr.org)
+[![PHP](https://img.shields.io/badge/PHP-%E2%89%A5%207.4-777bb4)](https://www.php.net)
+
 Dolibarr-Modul, das die **Einnahmenüberschussrechnung nach § 4 Abs. 3 EStG** im Aufbau der amtlichen
 **Anlage EÜR** erstellt – als Bildschirm-Report mit Zeilennummern, PDF und CSV. Grundlage sind die in
 Dolibarr erfassten **Zahlungen** (Zuflussprinzip), nicht das Hauptbuch.
