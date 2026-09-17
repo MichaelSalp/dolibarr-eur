@@ -12,7 +12,7 @@ Dolibarr erfassten **Zahlungen** (Zuflussprinzip), nicht das Hauptbuch.
 > Zinsen oder Bußgelder – ist **ausgeschlossen, soweit gesetzlich zulässig**; es gelten die Gewährleistungs-
 > und Haftungsausschlüsse der GPL-3.0 (Abschnitte 15 und 16).
 >
-> Das Modul ersetzt keine Steuerberatung und übermittelt nichts an ELSTER. Alle Werte vor der Übernahme in die
+> Das Modul ersetzt keine Steuerberatung und übermittelt in dieser Version nichts an ELSTER. Alle Werte vor der Übernahme in die
 > Steuererklärung selbst prüfen; die Verantwortung für die Erklärung liegt allein beim Steuerpflichtigen.
 
 ## Funktionen
@@ -120,7 +120,10 @@ ja/nein, dann
 - **Keine AfA-Berechnung** und keine Anlage AVEÜR: Abschreibungen und Restbuchwerte als manuelle Werte eintragen.
 - Nicht abgedeckt: § 13b Reverse Charge (Zeile 16 nur über Konten), Sammelposten und § 7g (nur manuell),
   Einlage privater Wirtschaftsgüter, Anlagen SZ/LuF/AVSE, Land- und Forstwirtschaft (Zeilen 13/14/25/26).
-- Keine ELSTER-Übermittlung (nur über die proprietäre ERiC-Bibliothek möglich).
+- Keine ELSTER-Übermittlung in dieser Version; die Werte werden manuell in Mein ELSTER übertragen.
+  Eine **direkte Übermittlung an ELSTER** (über die ERiC-Schnittstelle der Finanzverwaltung) ist als
+  **kostenpflichtige Erweiterung** möglich – bei Interesse bitte Kontakt aufnehmen über
+  [GitHub-Issues](https://github.com/MichaelSalp/dolibarr-eur/issues).
 - Formular derzeit nur für **2025**; andere Jahre verwenden das nächstgelegene Formular.
 - Wird eine Gutschrift oder Anzahlung erst später mit einer Rechnung verrechnet, verteilt der Report frühere
   Zahlungen dieser Rechnung neu (Netto/USt verschieben sich, der Gewinn bleibt gleich). Das exportierte PDF/CSV
