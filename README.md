@@ -1,12 +1,19 @@
-# EÜR – Anlage EÜR für Dolibarr
+# EÜR – Anlage EÜR für Dolibarr (Beta)
 
 Dolibarr-Modul, das die **Einnahmenüberschussrechnung nach § 4 Abs. 3 EStG** im Aufbau der amtlichen
 **Anlage EÜR** erstellt – als Bildschirm-Report mit Zeilennummern, PDF und CSV. Grundlage sind die in
 Dolibarr erfassten **Zahlungen** (Zuflussprinzip), nicht das Hauptbuch.
 
-> **Hinweis:** Das Modul bereitet Zahlen aus Dolibarr auf. Es ersetzt keine Steuerberatung, übermittelt nichts
-> an ELSTER und übernimmt keine Gewähr für die Richtigkeit. Die Verantwortung für die Steuererklärung liegt beim
-> Steuerpflichtigen. Die Werte werden manuell in Mein ELSTER übertragen.
+> [!WARNING]
+> **Beta-Version – keine Gewähr, keine Haftung.**
+> Dieses Modul befindet sich in der Beta-Phase und kann Fehler enthalten. Es wird **ohne jede Gewährleistung
+> für die Korrektheit, Vollständigkeit oder steuerliche Zulässigkeit** der Ergebnisse bereitgestellt. Eine
+> **Haftung für Schäden** aus der Nutzung – insbesondere für fehlerhafte Steuererklärungen, Nachzahlungen,
+> Zinsen oder Bußgelder – ist **ausgeschlossen, soweit gesetzlich zulässig**; es gelten die Gewährleistungs-
+> und Haftungsausschlüsse der GPL-3.0 (Abschnitte 15 und 16).
+>
+> Das Modul ersetzt keine Steuerberatung und übermittelt nichts an ELSTER. Alle Werte vor der Übernahme in die
+> Steuererklärung selbst prüfen; die Verantwortung für die Erklärung liegt allein beim Steuerpflichtigen.
 
 ## Funktionen
 
@@ -143,9 +150,14 @@ Liegen die Skripte außerhalb von `htdocs/custom/eur`, den Pfad per `DOLIBARR_HT
 **Release-ZIP bauen** (enthält nur die Moduldateien, gesteuert über `.gitattributes`):
 
 ```bash
-git archive --format=zip --prefix=eur/ -o module_eur-1.1.zip v1.1
+git archive --format=zip --prefix=eur/ -o module_eur-1.1.1.zip v1.1.1
 ```
+
+## Autor
+
+Michael Plas (Michi91)
 
 ## Lizenz
 
-GPL-3.0-or-later, siehe [LICENSE](LICENSE).
+GPL-3.0-or-later, siehe [LICENSE](LICENSE). Die Software wird ohne Gewährleistung bereitgestellt; Haftung
+ausgeschlossen, soweit gesetzlich zulässig (siehe Hinweis oben).

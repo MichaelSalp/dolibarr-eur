@@ -1,5 +1,11 @@
 # ChangeLog
 
+## 1.1.1 (Beta)
+
+- Als Beta gekennzeichnet: Hinweis „ohne Gewähr, Haftung ausgeschlossen soweit gesetzlich zulässig“ im README,
+  im Report, auf der Einstellungsseite, im CSV-Export und in der Modulbeschreibung (nicht im PDF).
+- Autor: Michael Plas (Michi91).
+
 ## 1.1
 
 - Nicht abziehbare Vorsteuer (§ 15 Abs. 1a UStG) bei Geschenken über 50 €, nicht abziehbarem Arbeitszimmer und

@@ -1,15 +1,15 @@
 # EÜR module
 ModuleEurName = EÜR
-ModuleEurDesc = Einnahmenüberschussrechnung (Anlage EÜR) nach Zahlungen
+ModuleEurDesc = Einnahmenüberschussrechnung (Anlage EÜR) nach Zahlungen – Beta, ohne Gewähr
 Module500100Name = EÜR
-Module500100Desc = Einnahmenüberschussrechnung (Anlage EÜR) nach Zahlungen
+Module500100Desc = Einnahmenüberschussrechnung (Anlage EÜR) nach Zahlungen – Beta, ohne Gewähr
 MenuEur = EÜR (Anlage EÜR)
 EurSetup = Einstellungen EÜR
 EurReport = Anlage EÜR
 EurYear = Steuerjahr
 EurZehnTage = 10-Tage-Regel anwenden?
 EurZehnTageHelp = § 11 Abs. 1 Satz 2 EStG: USt-Vorauszahlungen, die zwischen 22.12. und 10.01. gezahlt und fällig werden, zählen zum Jahr ihres Voranmeldungszeitraums.
-EurDisclaimer = Das Modul bereitet die Zahlen aus den in Dolibarr erfassten Zahlungen auf. Es ersetzt keine Steuerberatung; die Verantwortung für die Steuererklärung liegt beim Steuerpflichtigen.
+EurDisclaimer = BETA-VERSION – ohne Gewähr. Das Modul bereitet Zahlen aus den in Dolibarr erfassten Zahlungen auf, ersetzt keine Steuerberatung und wird ohne Gewährleistung für die Korrektheit der Ergebnisse bereitgestellt; eine Haftung ist ausgeschlossen, soweit gesetzlich zulässig (siehe GPL-3.0, Abschnitte 15 und 16). Alle Werte vor der Übernahme in die Steuererklärung prüfen; die Verantwortung liegt beim Steuerpflichtigen.
 EurPreliminary = VORLÄUFIG – nicht alle Prüfungen bestanden
 EurChecksOk = Alle Prüfungen bestanden
 EurUnassignedIn = Nicht zugeordnete Einnahmen
@@ -36,3 +36,4 @@ EUR_USTVA_DAUERFRIST = Dauerfristverlängerung für USt-Voranmeldungen
 EUR_USTVA_DAUERFRISTTooltip = Fälligkeit der Vorauszahlung einen Monat später (wirkt auf die 10-Tage-Regel).
 EUR_ZEHNTAGE_DEFAULT = 10-Tage-Regel standardmäßig anwenden
 EUR_ZEHNTAGE_DEFAULTTooltip = Voreinstellung der Abfrage im Report.
+EurBeta = BETA – ohne Gewähr für die Korrektheit

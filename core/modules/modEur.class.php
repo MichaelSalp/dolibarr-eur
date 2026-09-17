@@ -1,5 +1,5 @@
 <?php
-/* Copyright (C) 2026 Michael Plas
+/* Copyright (C) 2026 Michael Plas (Michi91)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,8 +36,8 @@ class modEur extends DolibarrModules
 		$this->name = preg_replace('/^mod/i', '', get_class($this));
 		$this->description = "ModuleEurDesc";
 		$this->descriptionlong = "ModuleEurDesc";
-		$this->editor_name = 'Michael Plas';
-		$this->version = '1.1';
+		$this->editor_name = 'Michael Plas (Michi91)';
+		$this->version = '1.1.1';
 		$this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
 		$this->picto = 'accounting';
 

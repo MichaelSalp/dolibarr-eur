@@ -1,5 +1,5 @@
 <?php
-/* Copyright (C) 2026 Michael Plas
+/* Copyright (C) 2026 Michael Plas (Michi91)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -204,7 +204,7 @@ if ($action == 'csv') {
 		$v = (string) $v;
 		return preg_match('/^[=+\-@\t\r]/', $v) ? "'".$v : $v;
 	};
-	fputcsv($out, array('Anlage EÜR '.$periodlabel, $txt($mysoc->name), '10-Tage-Regel: '.($eur->zehntage ? 'angewendet' : 'nicht angewendet'), $eur->ku ? 'Kleinunternehmer' : 'Regelbesteuerung', $eur->isPreliminary() ? 'VORLÄUFIG' : ''), ';');
+	fputcsv($out, array('Anlage EÜR '.$periodlabel, $txt($mysoc->name), '10-Tage-Regel: '.($eur->zehntage ? 'angewendet' : 'nicht angewendet'), $eur->ku ? 'Kleinunternehmer' : 'Regelbesteuerung', $eur->isPreliminary() ? 'VORLÄUFIG' : '', $txt($langs->transnoentities('EurBeta'))), ';');
 	fputcsv($out, array('Zeile', 'Bezeichnung', 'Betrag / abziehbar', 'nicht abziehbar'), ';');
 	foreach ($eur->form['lines'] as $line => $def) {
 		fputcsv($out, array($line, $txt($def[0]), $num($eur->lines[$line]['abz']), empty($def['twocol']) ? '' : $num($eur->lines[$line]['nabz'])), ';');
@@ -320,7 +320,6 @@ if ($action == 'pdf') {
 		}
 		$pdf->writeHTML($m.'</table>', true, false, true, false, '');
 	}
-	$pdf->writeHTML('<p style="color:#666666">'.dol_escape_htmltag($langs->trans('EurDisclaimer')).'</p>', true, false, true, false, '');
 	$pdf->Output('Anlage_EUER_'.$filesuffix.'.pdf', 'D');
 	exit;
 }
@@ -351,9 +350,10 @@ $calcmode = $langs->trans('EurZehnTage').' '.img_help(1, $langs->trans('EurZehnT
 $calcmode .= '<label><input type="radio" name="zehntage" value="1"'.($zehntage ? ' checked' : '').'> '.$langs->trans('Yes').'</label> &nbsp; ';
 $calcmode .= '<label><input type="radio" name="zehntage" value="0"'.(!$zehntage ? ' checked' : '').'> '.$langs->trans('No').'</label>';
 $calcmode .= '<br>'.($eur->ku ? $langs->trans('EurKuYear') : 'Regelbesteuerung').' <span class="opacitymedium">(Einstellung im Modul)</span>';
-$description = 'Einnahmenüberschussrechnung nach Zahlungseingang und -ausgang (§ 4 Abs. 3 EStG), gegliedert nach Anlage EÜR '.$eur->form['year'].'.<br><span class="opacitymedium">'.$langs->trans('EurDisclaimer').'</span>';
+$description = 'Einnahmenüberschussrechnung nach Zahlungseingang und -ausgang (§ 4 Abs. 3 EStG), gegliedert nach Anlage EÜR '.$eur->form['year'].'.';
 $exportlink = '<a class="butAction" href="'.$_SERVER['PHP_SELF'].'?'.$param.'&action=pdf&token='.newToken().'">PDF</a><a class="butAction" href="'.$_SERVER['PHP_SELF'].'?'.$param.'&action=csv&token='.newToken().'">CSV</a>';
 
+print info_admin($langs->trans('EurDisclaimer'), 0, 0, 'warning');
 report_header($langs->trans('EurReport').' '.$periodlabel, '', $period, $periodlink, $description, dol_now(), $exportlink, array('tab' => $tab), $calcmode);
 
 // Status banner
