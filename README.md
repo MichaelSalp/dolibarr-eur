@@ -15,6 +15,16 @@ Dolibarr erfassten **Zahlungen** (Zuflussprinzip), nicht das Hauptbuch.
 > Das Modul ersetzt keine Steuerberatung und übermittelt in dieser Version nichts an ELSTER. Alle Werte vor der Übernahme in die
 > Steuererklärung selbst prüfen; die Verantwortung für die Erklärung liegt allein beim Steuerpflichtigen.
 
+## Download
+
+### [➜ module_eur-1.1.1.zip herunterladen](https://github.com/MichaelSalp/dolibarr-eur/releases/download/v1.1.1/module_eur-1.1.1.zip)
+
+**Version 1.1.1 (Beta)** · [Release-Notizen](https://github.com/MichaelSalp/dolibarr-eur/releases/tag/v1.1.1) ·
+[alle Versionen](https://github.com/MichaelSalp/dolibarr-eur/releases)
+
+Die ZIP-Datei unverändert (Dateiname nicht ändern) in Dolibarr unter
+*Start → Einstellungen → Module → Externes Modul bereitstellen* hochladen – Details unter [Installation](#installation).
+
 ## Funktionen
 
 - **Anlage EÜR 2025**: Betriebseinnahmen (Zeilen 12–23), Betriebsausgaben (24–75, inkl. zweispaltiger Zeilen
