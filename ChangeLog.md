@@ -1,6 +1,6 @@
 # ChangeLog
 
-## Unveröffentlicht
+## 1.1.2 (Beta)
 
 - Prüfung C6 (GWG-Grenze) vergleicht den Nettobetrag je Stück der Belegzeile, auch bei Kleinunternehmern
   (vorher brutto und je Zahlung: Falschmeldung bei 700 € netto, keine Meldung bei Ratenzahlung).

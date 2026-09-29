@@ -24,9 +24,9 @@ Dolibarr erfassten **Zahlungen** (Zuflussprinzip), nicht das Hauptbuch.
 
 ## Download
 
-### [➜ module_eur-1.1.1.zip herunterladen](https://github.com/MichaelSalp/dolibarr-eur/releases/download/v1.1.1/module_eur-1.1.1.zip)
+### [➜ module_eur-1.1.2.zip herunterladen](https://github.com/MichaelSalp/dolibarr-eur/releases/download/v1.1.2/module_eur-1.1.2.zip)
 
-**Version 1.1.1 (Beta)** · [Release-Notizen](https://github.com/MichaelSalp/dolibarr-eur/releases/tag/v1.1.1) ·
+**Version 1.1.2 (Beta)** · [Release-Notizen](https://github.com/MichaelSalp/dolibarr-eur/releases/tag/v1.1.2) ·
 [alle Versionen](https://github.com/MichaelSalp/dolibarr-eur/releases)
 
 Die ZIP-Datei unverändert (Dateiname nicht ändern) in Dolibarr unter
@@ -175,7 +175,7 @@ Liegen die Skripte außerhalb von `htdocs/custom/eur`, den Pfad per `DOLIBARR_HT
 **Release-ZIP bauen** (enthält nur die Moduldateien, gesteuert über `.gitattributes`):
 
 ```bash
-git archive --format=zip --prefix=eur/ -o module_eur-1.1.1.zip v1.1.1
+git archive --format=zip --prefix=eur/ -o module_eur-1.1.2.zip v1.1.2
 ```
 
 ## Autor
