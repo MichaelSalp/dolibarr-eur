@@ -96,6 +96,9 @@ $r = Eur::allocate(array(array('code' => 'A', 'ht' => 700, 'vat' => 133)), 833, 
 eq('KU brutto', 833, $r['A']);
 ok('KU ohne USt-Anteil', !isset($r['__VAT__']));
 ok('Nenner 0 → null', Eur::allocate(array(), 0, 10, false) === null);
+ok('GWG 800 netto: in der Grenze', !Eur::overGwgLimit(800, 1));
+ok('GWG 800,01 netto: über der Grenze', Eur::overGwgLimit(800.01, 1));
+ok('GWG 2 Stück à 750: in der Grenze', !Eur::overGwgLimit(1500, 2));
 
 echo "2. vatYear() (10-Tage-Regel)\n";
 $t = function ($s) {
@@ -106,6 +109,7 @@ eq('Dez-VA bezahlt 08.01.26 → 2025', 2025, Eur::vatYear($t('2026-01-08'), $t('
 eq('ohne Regel: Zahlungsjahr', 2025, Eur::vatYear($t('2025-01-09'), $t('2024-12-31'), false, false));
 eq('Nov-VA ohne Dauerfrist bezahlt 05.01. → Zahlungsjahr (fällig 10.12.)', 2025, Eur::vatYear($t('2025-01-05'), $t('2024-11-30'), true, false));
 eq('Nov-VA mit Dauerfrist bezahlt 05.01. → Vorjahr', 2024, Eur::vatYear($t('2025-01-05'), $t('2024-11-30'), true, true));
+eq('Dez-VA mit Dauerfrist bezahlt 09.01. → Zahlungsjahr (fällig 10.02.)', 2025, Eur::vatYear($t('2025-01-09'), $t('2024-12-31'), true, true));
 eq('Zahlung nach 10.01. → Zahlungsjahr', 2025, Eur::vatYear($t('2025-01-11'), $t('2024-12-31'), true, false));
 eq('Zahlung im Sommer', 2025, Eur::vatYear($t('2025-07-08'), $t('2025-06-30'), true, false));
 
@@ -182,7 +186,7 @@ eq('Zeile 12 (Umsätze 2025 brutto)', 8950.40, $eur3->lines[12]['abz']);
 eq('Zeile 15: Rechnung aus Regelbesteuerungsjahr 2024', 869.57, $eur3->lines[15]['abz']);
 eq('Zeile 17: USt dieser Rechnung bleibt', 130.43, $eur3->lines[17]['abz']);
 eq('Zeile 16 leer (Überzahlung 2025 in Zeile 12)', 0, $eur3->lines[16]['abz']);
-ok('C6 meldet GWG > 800 brutto', !$eur3->checks['C6']['ok']);
+ok('C6 ok (GWG 833 brutto = 700 netto, Grenze gilt netto)', $eur3->checks['C6']['ok']);
 ok('C1 ok', $eur3->checks['C1']['ok']);
 
 echo "6. compute() Zeitraum 01.01.–30.06.2025\n";
@@ -219,6 +223,8 @@ $nomap = new Eur($db);
 $nomap->compute(2026, true);	// year without payments: before C0 this reported "all checks passed"
 ok('C0 schlägt fehl ohne Zuordnung', !$nomap->checks['C0']['ok']);
 ok('Report dann vorläufig, auch ohne Zahlungen', $nomap->isPreliminary());
+ok('C11 ok für 2025', $eur->checks['C11']['ok']);
+ok('C11 meldet Formular 2025 für Steuerjahr 2026', !$nomap->checks['C11']['ok']);
 $conf->global->CHARTOFACCOUNTS = 0;
 $nochart = new Eur($db);
 $nochart->compute(2026, true);

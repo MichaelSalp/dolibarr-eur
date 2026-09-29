@@ -240,6 +240,20 @@ class Eur
 	}
 
 	/**
+	 * True if one item of a document line is above the GWG limit (§ 6 Abs. 2 EStG). Pure function.
+	 *
+	 * The limit is always a net amount, also without input VAT deduction (R 9b Abs. 2 EStR).
+	 *
+	 * @param float $ht  Net total of the line
+	 * @param float $qty Quantity
+	 * @return bool
+	 */
+	public static function overGwgLimit($ht, $qty)
+	{
+		return round($ht / ($qty > 0 ? $qty : 1), 2) > 800;
+	}
+
+	/**
 	 * Compute the EÜR for a year or an exact period
 	 *
 	 * @param int       $year     Tax year (used when no period is given)
@@ -426,12 +440,12 @@ class Eur
 		}
 		if ($type == 'customer') {
 			$sql = "SELECT f.rowid, f.ref, f.datef, f.total_ttc, f.multicurrency_code, f.multicurrency_tx FROM ".$this->db->prefix()."facture as f WHERE f.rowid = ".((int) $id);
-			$sqll = "SELECT d.total_ht, d.total_tva as vat, d.total_ttc, d.tva_tx, d.fk_code_ventilation, d.description, aa.account_number, aa.fk_pcg_version";
+			$sqll = "SELECT d.qty, d.total_ht, d.total_tva as vat, d.total_ttc, d.tva_tx, d.fk_code_ventilation, d.description, aa.account_number, aa.fk_pcg_version";
 			$sqll .= " FROM ".$this->db->prefix()."facturedet as d LEFT JOIN ".$this->db->prefix()."accounting_account as aa ON aa.rowid = d.fk_code_ventilation";
 			$sqll .= " WHERE d.fk_facture = ".((int) $id);
 		} else {
 			$sql = "SELECT f.rowid, f.ref, f.datef, f.total_ttc, f.multicurrency_code, f.multicurrency_tx FROM ".$this->db->prefix()."facture_fourn as f WHERE f.rowid = ".((int) $id);
-			$sqll = "SELECT d.total_ht, d.tva as vat, d.total_ttc, d.tva_tx, d.fk_code_ventilation, d.description, aa.account_number, aa.fk_pcg_version";
+			$sqll = "SELECT d.qty, d.total_ht, d.tva as vat, d.total_ttc, d.tva_tx, d.fk_code_ventilation, d.description, aa.account_number, aa.fk_pcg_version";
 			$sqll .= " FROM ".$this->db->prefix()."facture_fourn_det as d LEFT JOIN ".$this->db->prefix()."accounting_account as aa ON aa.rowid = d.fk_code_ventilation";
 			$sqll .= " WHERE d.fk_facture_fourn = ".((int) $id);
 		}
@@ -455,7 +469,7 @@ class Eur
 			if ($d->fk_pcg_version && $this->pcg && $d->fk_pcg_version != $this->pcg) {
 				$this->warn['C10'][$type.$id] = $f->ref.' ('.$d->fk_pcg_version.' '.$d->account_number.')';
 			}
-			$doc['lines'][] = array('code' => $code, 'ht' => (float) $d->total_ht, 'vat' => (float) $d->vat, 'account' => (string) $d->account_number, 'desc' => $d->description, 'ttc' => (float) $d->total_ttc, 'tva_tx' => (float) $d->tva_tx);
+			$doc['lines'][] = array('code' => $code, 'ht' => (float) $d->total_ht, 'vat' => (float) $d->vat, 'account' => (string) $d->account_number, 'desc' => $d->description, 'ttc' => (float) $d->total_ttc, 'tva_tx' => (float) $d->tva_tx, 'qty' => (float) $d->qty);
 			$sumttc += (float) $d->total_ttc;
 		}
 		$doc['consistent'] = (abs($sumttc - $doc['total_ttc']) <= 0.01 * max(1, count($doc['lines'])));
@@ -543,6 +557,9 @@ class Eur
 		$ku = $pool['ku'] ?? $this->ku;
 		$lines = array();
 		foreach ($pool['lines'] as $l) {
+			if ($l['code'] == 'A_GWG' && self::overGwgLimit($l['ht'], $l['qty'] ?? 1)) {
+				$this->warn['C6'][$detail['doc']] = $detail['doc'].': '.price($l['ht'] / (($l['qty'] ?? 0) > 0 ? $l['qty'] : 1)).' netto je Stück > '.price(800).' (GWG-Grenze, ggf. AfA statt Sofortabzug)';
+			}
 			// Input VAT excluded by § 15 Abs. 1a UStG: the expense is entered gross, not in line 57
 			if (!empty($l['code']) && !empty($this->form['codes'][$l['code']]['gross'])) {
 				$l['ht'] += $l['vat'];
@@ -661,7 +678,7 @@ class Eur
 			$key = 'er'.$obj->eid;
 			if (!isset($this->pools[$key])) {
 				$pool = array('ref' => $obj->ref, 'lines' => array(), 'denom' => (float) $obj->total_ttc, 'unbound' => 0, 'ku' => in_array((int) substr((string) $obj->date_debut, 0, 4), $this->kuYears));
-				$sqll = "SELECT d.total_ht, d.total_tva, d.total_ttc, d.fk_code_ventilation, aa.account_number FROM ".$this->db->prefix()."expensereport_det as d";
+				$sqll = "SELECT d.qty, d.total_ht, d.total_tva, d.total_ttc, d.fk_code_ventilation, aa.account_number FROM ".$this->db->prefix()."expensereport_det as d";
 				$sqll .= " LEFT JOIN ".$this->db->prefix()."accounting_account as aa ON aa.rowid = d.fk_code_ventilation WHERE d.fk_expensereport = ".((int) $obj->eid);
 				$sum = 0;
 				$resl = $this->db->query($sqll);
@@ -670,7 +687,7 @@ class Eur
 					if ((int) $d->fk_code_ventilation <= 0) {
 						$pool['unbound']++;
 					}
-					$pool['lines'][] = array('code' => $code, 'ht' => (float) $d->total_ht, 'vat' => (float) $d->total_tva, 'account' => (string) $d->account_number);
+					$pool['lines'][] = array('code' => $code, 'ht' => (float) $d->total_ht, 'vat' => (float) $d->total_tva, 'account' => (string) $d->account_number, 'qty' => (float) $d->qty);
 					$sum += (float) $d->total_ttc;
 				}
 				$pool['consistent'] = (abs($sum - $pool['denom']) <= 0.01 * max(1, count($pool['lines'])));
@@ -896,7 +913,7 @@ class Eur
 	}
 
 	/**
-	 * Build checks C1–C9
+	 * Build checks C0–C11
 	 *
 	 * @param string $start Start of year (Y-m-d H:i:s)
 	 * @param string $end   End of year (Y-m-d H:i:s)
@@ -967,15 +984,8 @@ class Eur
 		}
 		$this->addCheck('C5', empty($items), 'error', 'Konten mit mehreren EÜR-Zuordnungen', $items);
 
-		// C6 GWG lines above the limit
-		$items = array();
-		$limit = 800;
-		foreach ($this->details['A_GWG'] ?? array() as $d) {
-			if ($d['amount'] > $limit) {
-				$items[] = ($d['doc'] ?? $d['ref']).': '.price($d['amount']).' '.($this->ku ? 'brutto' : 'netto').' > '.price($limit).' (GWG-Grenze, ggf. AfA statt Sofortabzug)';
-			}
-		}
-		$this->addCheck('C6', empty($items), 'warning', 'Geringwertige Wirtschaftsgüter über 800 €', $items);
+		// C6 GWG document lines above the limit (net per item, collected in distribute())
+		$this->addCheck('C6', empty($this->warn['C6']), 'warning', 'Geringwertige Wirtschaftsgüter über 800 € netto', array_values($this->warn['C6']));
 
 		// C7 asset purchase without manual AfA
 		$hasAfa = false;
@@ -1012,6 +1022,10 @@ class Eur
 			}
 		}
 		$this->addCheck('C9', empty($items), 'warning', 'Kleinunternehmer-Einstellung', $items);
+
+		// C11 form of another year used (loadForm() falls back to the nearest one)
+		$formyear = (int) ($this->form['year'] ?? 0);
+		$this->addCheck('C11', $formyear == $this->year, 'warning', 'Formular des Steuerjahres', ($formyear == $this->year) ? array() : array('Für '.$this->year.' liegt kein Formular vor, verwendet wird die Anlage EÜR '.$formyear.'. Zeilennummern und -texte vor der Übernahme mit dem amtlichen Vordruck '.$this->year.' abgleichen.'));
 	}
 
 	/**

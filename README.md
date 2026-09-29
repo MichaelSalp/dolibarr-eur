@@ -126,22 +126,27 @@ ja/nein, dann
 | C3 | Belege, deren Zeilen nicht zur Belegsumme passen |
 | C4 | Bankbuchungen ohne Zahlungsbeleg (würden sonst fehlen) |
 | C5 | Konten, die mehreren EÜR-Codes zugeordnet sind |
-| C6 | Geringwertige Wirtschaftsgüter über 800 € (Hinweis) |
+| C6 | Geringwertige Wirtschaftsgüter über 800 € netto je Stück, auch bei Kleinunternehmern (Hinweis) |
 | C7 | Anlagenkauf ohne eingetragene AfA bzw. Teilzeitraum ohne Jahreswerte (Hinweis) |
 | C8 | Belege in Fremdwährung (Hinweis) |
 | C9 | Kleinunternehmer-Einstellung passt nicht zur Firmeneinstellung (Hinweis) |
 | C10 | Belege mit Konten eines anderen Kontenrahmens als dem aktiven |
+| C11 | Für das Steuerjahr liegt kein Formular vor, es wird das eines anderen Jahres verwendet (Hinweis) |
 
 ## Grenzen
 
 - **Keine AfA-Berechnung** und keine Anlage AVEÜR: Abschreibungen und Restbuchwerte als manuelle Werte eintragen.
+  Das gilt auch für Computerhardware und Software mit einjähriger Nutzungsdauer: als Anlagenkauf kontieren und
+  die AfA als manuellen Wert eintragen (Zeile 33, Software Zeile 32).
+- Die 10-Tage-Regel wird nur auf USt-Zahlungen angewendet. Andere regelmäßig wiederkehrende Zahlungen zum
+  Jahreswechsel (Miete, Versicherungen) zählen im Jahr der Zahlung.
 - Nicht abgedeckt: § 13b Reverse Charge (Zeile 16 nur über Konten), Sammelposten und § 7g (nur manuell),
   Einlage privater Wirtschaftsgüter, Anlagen SZ/LuF/AVSE, Land- und Forstwirtschaft (Zeilen 13/14/25/26).
 - Keine ELSTER-Übermittlung in dieser Version; die Werte werden manuell in Mein ELSTER übertragen.
   Eine **direkte Übermittlung an ELSTER** (über die ERiC-Schnittstelle der Finanzverwaltung) ist als
   **kostenpflichtige Erweiterung** möglich – bei Interesse bitte Kontakt aufnehmen über
   [GitHub-Issues](https://github.com/MichaelSalp/dolibarr-eur/issues).
-- Formular derzeit nur für **2025**; andere Jahre verwenden das nächstgelegene Formular.
+- Formular derzeit nur für **2025**; andere Jahre verwenden das nächstgelegene Formular (Hinweis C11).
 - Wird eine Gutschrift oder Anzahlung erst später mit einer Rechnung verrechnet, verteilt der Report frühere
   Zahlungen dieser Rechnung neu (Netto/USt verschieben sich, der Gewinn bleibt gleich). Das exportierte PDF/CSV
   als Nachweis der abgegebenen Erklärung aufbewahren.

@@ -1,5 +1,12 @@
 # ChangeLog
 
+## Unveröffentlicht
+
+- Prüfung C6 (GWG-Grenze) vergleicht den Nettobetrag je Stück der Belegzeile, auch bei Kleinunternehmern
+  (vorher brutto und je Zahlung: Falschmeldung bei 700 € netto, keine Meldung bei Ratenzahlung).
+- Neue Prüfung C11: Hinweis, wenn für das Steuerjahr kein eigenes Formular vorliegt.
+- README: Hinweise zu Hardware/Software mit einjähriger Nutzungsdauer und zum Umfang der 10-Tage-Regel.
+
 ## 1.1.1 (Beta)
 
 - Als Beta gekennzeichnet: Hinweis „ohne Gewähr, Haftung ausgeschlossen soweit gesetzlich zulässig“ im README,
